@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Random Quote Generator</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-attachment: fixed;
+    }
+
+    .quote-box {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      max-width: 700px;
+      text-align: center;
+      color: #fff;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    #quote {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    #author {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #f0f0f0;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #ffffff;
+      color: #333;
+      font-weight: bold;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quote-box">
+    <h2>✨ Random Quote Generator ✨</h2>
+    <div id="quote">Loading quote...</div>
+    <div id="author"></div>
+    <button onclick="showRandomQuote()">New Quote</button>
+  </div>
+
+  <script>
+    let quotes = [];
+
+    fetch('quotes.csv')
+      .then(response => response.text())
+      .then(csv => {
+        const parsed = Papa.parse(csv, {
+          header: true,
+          skipEmptyLines: true
+        });
+        quotes = parsed.data;
+        showRandomQuote();
+      });
+
+    function showRandomQuote() {
+      if (quotes.length === 0) return;
+      const random = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quote').innerText = `"${random.quote}"`;
+      document.getElementById('author').innerText = `— ${random.author}`;
+    }
+  </script>
+</body>
+</html>
