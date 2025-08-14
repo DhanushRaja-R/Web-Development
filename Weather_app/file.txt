@@ -1,0 +1,4 @@
+apiKey: "281daef4b21a49c319e35d51755dd56f",    
+https://api.openweathermap.org/data/2.5/weather?id={city id}&appid={this.apiKey}
+
+https://api.openweathermap.org/data/2.5/weather?q=chennai&appid=281daef4b21a49c319e35d51755dd56f&units=metric
